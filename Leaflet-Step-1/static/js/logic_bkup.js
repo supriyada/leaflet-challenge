@@ -1,6 +1,7 @@
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
   
 d3.json(queryUrl).then(function(data){
+    console.log(data)
     createFeatures(data.features);    
 });
 
@@ -35,24 +36,7 @@ function createFeatures(earthquakeData) {
       accessToken: API_KEY
     });
   
-    var darkmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-      attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-      maxZoom: 18,
-      id: "dark-v10",
-      accessToken: API_KEY
-    });
-  
-    // Define a baseMaps object to hold our base layers
-    var baseMaps = {
-      "Street Map": streetmap,
-      "Dark Map": darkmap
-    };
-  
-    // Create overlay object to hold our overlay layer
-    var overlayMaps = {
-      Earthquakes: earthquakes
-    };
-  
+     
     // Create our map, giving it the streetmap and earthquakes layers to display on load
     var myMap = L.map("mapid", {
       center: [
@@ -65,16 +49,19 @@ function createFeatures(earthquakeData) {
     // Create a layer control
     // Pass in our baseMaps and overlayMaps
     // Add the layer control to the map
-    L.control.layers(baseMaps, overlayMaps, {
-      collapsed: false
+    var geoJSON = L.circle([37.09, -95.71], {
+        color: "red",
+        fillColor: "#f03",
+        fillOpacity: 0.5,
+        radius: 100.0
     }).addTo(myMap);
 
     // Set up the legend
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
-    var limits = queryUrl.options.limits;
-    var colors = queryUrl.options.colors;
+    var limits = geoJSON.options.limits;
+    var colors = geoJSON.options.colors;
     var labels = [];
 
     // Add min & max
