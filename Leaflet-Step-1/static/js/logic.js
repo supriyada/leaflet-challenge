@@ -15,8 +15,10 @@ L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?acce
     accessToken: API_KEY
 }).addTo(myMap);
 
+//URL to get the dataset
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
+//Function to choose color for the depth of earthquake
 function chooseColor(mag_depth) {
 
     switch (true) {
@@ -35,6 +37,7 @@ function chooseColor(mag_depth) {
     }
 }
 
+//Retrieve json data
 d3.json(queryUrl).then(function (data) {
     var earthquakes = data.features;
     console.log(earthquakes)
@@ -47,7 +50,7 @@ d3.json(queryUrl).then(function (data) {
         var mag_depth = location[2]
 
         var magnitude = earthquakes[i].properties.mag;
-
+        //Circle markers
         L.circleMarker([location[1], location[0]], {
             color: "green",
             fillColor: chooseColor(mag_depth),
@@ -60,7 +63,7 @@ d3.json(queryUrl).then(function (data) {
             .addTo(myMap);
 
     }
-
+    //Legend for the magnitude depth
     var legend = L.control({ position: "bottomright" });
 
     legend.onAdd = function (map) {
