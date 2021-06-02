@@ -1,3 +1,5 @@
+//Map center coordinates
+
 var myMap = L.map("mapid", {
     center: [
         37.09, -95.71
@@ -5,6 +7,7 @@ var myMap = L.map("mapid", {
     zoom: 5,
 });
 
+//Create a tile layer - darkmap
 L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
